@@ -1,0 +1,161 @@
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+  <div class="space"> </div>
+  <span>Veículos</span>
+</div>
+
+<div class="content" role="main">
+
+  <table mat-table [dataSource]="dataAll" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <a style="cursor: pointer; color: #248f00;" (click)="action('edit', row)">
+          <mat-icon>edit</mat-icon>
+        </a>
+        <a style="cursor: pointer; padding-left: 5px; color: #de370d;" (click)="action('delete', row)">
+          <mat-icon>delete</mat-icon>
+        </a>
+        <!-- <button mat-icon-button color="warn" (click)="delete(row)"><mat-icon>delete</mat-icon></button>
+        
+        <button mat-icon-button color="primary" (click)="editVehicle(row)"><mat-icon>edit</mat-icon></button> -->
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="modelo">
+      <th mat-header-cell *matHeaderCellDef> Modelo </th>
+      <td mat-cell *matCellDef="let element"> {{element.modelo}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="marca">
+      <th mat-header-cell *matHeaderCellDef> Marca </th>
+      <td mat-cell *matCellDef="let element"> {{element.marca}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ano">
+      <th mat-header-cell *matHeaderCellDef> Ano </th>
+      <td mat-cell *matCellDef="let element"> {{element.ano}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="placa">
+      <th mat-header-cell *matHeaderCellDef> Placa </th>
+      <td mat-cell *matCellDef="let element"> {{element.placa}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="chassi">
+      <th mat-header-cell *matHeaderCellDef> Chassi </th>
+      <td mat-cell *matCellDef="let element"> {{element.chassi}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="renavam">
+      <th mat-header-cell *matHeaderCellDef> Renavam </th>
+      <td mat-cell *matCellDef="let element"> {{element.renavam}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <h3 style="padding-top:5px;">
+    Editar veículos
+    <button mat-raised-button color="primary" style="float:right;" (click)="addVehicle()">Novo</button>
+    <div class="clearfix"></div>
+  </h3>
+
+  <ng-container *ngIf="insert || editing">
+    <form #eventForm="ngForm">
+      
+      <div class="mat-row">
+        <mat-form-field class="col">
+          <mat-label>Modelo</mat-label>
+          <input matInput name="Modelo" [(ngModel)]="data.modelo">
+        </mat-form-field>
+        
+        <mat-form-field class="col">
+          <mat-label>Marca</mat-label>
+          <input matInput name="Marca" [(ngModel)]="data.marca">
+        </mat-form-field>
+        
+        <mat-form-field class="col">
+          <mat-label>Ano</mat-label>
+          <input matInput name="Ano" type="number" [(ngModel)]="data.ano">
+        </mat-form-field>
+      </div>
+      
+      <div class="mat-row">
+        <mat-form-field class="col">
+          <mat-label>Placa</mat-label>
+          <input matInput name="Placa" [(ngModel)]="data.placa">
+        </mat-form-field>
+        
+        <mat-form-field class="col">
+          <mat-label>Chassi</mat-label>
+          <input matInput name="Chassi" [(ngModel)]="data.chassi">
+        </mat-form-field>
+        
+        <mat-form-field class="col">
+          <mat-label>Renavam</mat-label>
+          <input matInput name="Renavam" [(ngModel)]="data.renavam">
+        </mat-form-field>
+      </div>
+
+      <div class="mat-row">
+        <button class="col" mat-raised-button color="primary" (click)="salvar()">Salvar</button>
+        <button class="col" mat-raised-button color="warn" (click)="cancelar()">Cancelar</button>
+      </div>
+    </form>
+  </ng-container>
+
+  <div class="table-responsive">
+    <!-- <table mat-table [dataSource]="dataAll" class="mat-elevation-z8" *ngIf="dataAll && dataAll.length > 0">
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell  *matHeaderCellDef > </mat-header-cell>
+        <mat-cell *matCellDef="let row" >
+             <button mat-raised-button color="warn">Deletar</button>
+        </mat-cell>
+      </ng-container>
+    
+      <ng-container matColumnDef="NomeResponsavel">
+        <th mat-header-cell *matHeaderCellDef> Responsável </th>
+        <td mat-cell *matCellDef="let element"> {{element.NomeResponsavel}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="DataInicio">
+        <th mat-header-cell *matHeaderCellDef> Início </th>
+        <td mat-cell *matCellDef="let element"> {{element.DataInicio}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="DataFim">
+        <th mat-header-cell *matHeaderCellDef> Fim </th>
+        <td mat-cell *matCellDef="let element"> {{element.DataFim}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="Sala">
+        <th mat-header-cell *matHeaderCellDef> Sala </th>
+        <td mat-cell *matCellDef="let element"> {{element.Sala}} </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          (click)="delete(row)">
+      </tr>
+    </table> -->
+  </div>
+
+  <svg id="clouds" alt="Gray Clouds Background" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677"
+    viewBox="0 0 2611.084 485.677">
+    <path id="Path_39" data-name="Path 39"
+      d="M2379.709,863.793c10-93-77-171-168-149-52-114-225-105-264,15-75,3-140,59-152,133-30,2.83-66.725,9.829-93.5,26.25-26.771-16.421-63.5-23.42-93.5-26.25-12-74-77-130-152-133-39-120-212-129-264-15-54.084-13.075-106.753,9.173-138.488,48.9-31.734-39.726-84.4-61.974-138.487-48.9-52-114-225-105-264,15a162.027,162.027,0,0,0-103.147,43.044c-30.633-45.365-87.1-72.091-145.206-58.044-52-114-225-105-264,15-75,3-140,59-152,133-53,5-127,23-130,83-2,42,35,72,70,86,49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33,61.112,8.015,113.854-5.72,150.492-29.764a165.62,165.62,0,0,0,110.861-3.236c47,94,178,113,251,33,31.385,4.116,60.563,2.495,86.487-3.311,25.924,5.806,55.1,7.427,86.488,3.311,73,80,204,61,251-33a165.625,165.625,0,0,0,120,0c51,13,108,15,157-5a147.188,147.188,0,0,0,33.5-18.694,147.217,147.217,0,0,0,33.5,18.694c49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33C2446.709,1093.793,2554.709,922.793,2379.709,863.793Z"
+      transform="translate(142.69 -634.312)" fill="#eee" />
+  </svg>
+
+</div>
+
+<router-outlet></router-outlet>
